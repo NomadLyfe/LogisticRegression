@@ -15,7 +15,7 @@ class LogisticRegression:
 
         for _ in range(self.n_iters):
             #y_pred = 1/(1 + e**(-w*x + b))
-            y_pred = 1 / (1 + np.exp(-np.dot(X, self.weights) + self.bias))
+            y_pred = 1 / (1 + np.exp(-np.clip(np.dot(X, self.weights) + self.bias, -500, 500)))
 
             ddw = (1/n_samps) * np.dot(2*X.T, (y_pred-y))
             ddb = (1/n_samps) * np.sum(2*(y_pred-y))
@@ -24,6 +24,6 @@ class LogisticRegression:
             self.bias = self.bias - self.lr * ddb
 
     def predict(self, X):
-        y_pred = 1 / (1 + np.exp(-np.dot(X, self.weights) + self.bias))
-        class_pred = [0 if y<0.5 else 1 y for y in y_pred]
+        y_pred = 1 / (1 + np.exp(-np.clip(np.dot(X, self.weights) + self.bias, -500, 500)))
+        class_pred = [0 if y<0.5 else 1 for y in y_pred]
         return class_pred
