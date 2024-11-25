@@ -24,4 +24,6 @@ class LogisticRegression:
             self.bias = self.bias - self.lr * ddb
 
     def predict(self, X):
-        pass
+        y_pred = 1 / (1 + np.exp(-np.dot(X, self.weights) + self.bias))
+        class_pred = [0 if y<0.5 else 1 y for y in y_pred]
+        return class_pred
